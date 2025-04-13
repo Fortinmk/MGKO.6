@@ -10,9 +10,11 @@
       background: black;
       overflow: hidden;
       font-family: monospace;
+      color: white;
+      perspective: 1000px;
     }
 
-    /* MATRIX EFFECT */
+    /* خلفية Matrix */
     canvas {
       position: fixed;
       top: 0;
@@ -20,129 +22,111 @@
       z-index: -1;
     }
 
-    /* PYRAMID CONTAINER */
+    /* شكل الهرم الثلاثي الأبعاد */
     .pyramid-container {
-      width: 300px;
-      height: 300px;
-      margin: 80px auto 20px;
-      position: relative;
-      perspective: 1000px;
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) rotateX(0deg);
+      transform-style: preserve-3d;
+      animation: spin 20s linear infinite;
     }
 
-    .pyramid {
+    .triangle {
+      position: absolute;
       width: 0;
       height: 0;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) rotateX(40deg) rotateY(25deg);
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 260px solid rgba(0, 150, 255, 0.2);
+      border-left: 75px solid transparent;
+      border-right: 75px solid transparent;
+      border-bottom: 130px solid rgba(138, 43, 226, 0.3); /* بنفسجي شفاف */
+      transform-origin: bottom;
     }
 
-    .title {
+    .triangle:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+    .triangle:nth-child(2) { transform: rotateY(120deg) translateZ(75px); }
+    .triangle:nth-child(3) { transform: rotateY(240deg) translateZ(75px); }
+
+    @keyframes spin {
+      from { transform: translateX(-50%) rotateY(0deg) rotateX(10deg); }
+      to { transform: translateX(-50%) rotateY(360deg) rotateX(10deg); }
+    }
+
+    .logo {
       position: absolute;
-      top: 120px;
+      top: 180px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 1.8rem;
-      color: darkred;
-      text-shadow: 0 0 8px red, 0 0 15px crimson;
-      letter-spacing: 2px;
-      z-index: 2;
+      font-size: 18px;
+      color: red;
+      text-shadow: 0 0 8px red;
+      white-space: nowrap;
     }
 
-    /* MYSTIC SYMBOLS */
-    .symbols {
-      font-size: 1.2rem;
-      color: #0f0;
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.5;
-      opacity: 0.4;
-    }
-
-    /* SQUARE BUTTON */
-    .button-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 50px;
-    }
-
-    .square-button {
-      width: 120px;
-      height: 120px;
-      background: linear-gradient(135deg, #00ff99, #8000ff);
-      border: 4px double #0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
-      color: black;
-      font-family: sans-serif;
-      font-weight: bold;
+    .button {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(139, 69, 19, 0.6); /* بني خافت */
+      border: 2px solid #3e2e1f;
+      color: white;
+      font-size: 20px;
+      padding: 15px 30px;
       cursor: pointer;
-      box-shadow: 0 0 15px #0f0, 0 0 25px #8000ff;
-      transform: rotate(45deg);
-    }
-
-    .square-button span {
-      transform: rotate(-45deg);
+      transform: translateX(-50%);
+      border-radius: 6px;
+      writing-mode: horizontal-tb;
     }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
 
+  <!-- هرم ثلاثي الأبعاد -->
   <div class="pyramid-container">
-    <div class="pyramid"></div>
-    <div class="title">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
+    <div class="triangle"></div>
+    <div class="triangle"></div>
+    <div class="triangle"></div>
   </div>
 
-  <div class="symbols">
-    ⟁ ⧫ ☥ ⚛ ⍟ ⊹ 𓂀 𓆣 𓊝 ⊕ ⟁ ⚙ ⟁ ⧫ ☥ ⚛ ⍟ ⊹ 𓂀 𓆣 𓊝 ⊕
-  </div>
+  <!-- الشعار -->
+  <div class="logo">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
 
-  <div class="button-container">
-    <div class="square-button">
-      <span>ܬܥܠ</span>
-    </div>
-  </div>
+  <!-- الزر -->
+  <div class="button">ܬܥܠ</div>
 
   <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
 
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
-    const symbols = '⟁⧫☥⚛⍟⊹𓂀𓆣𓊝⊕';
-    const fontSize = 16;
+    const symbols = "アァイィウヴカガキギクグケゲコゴシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲン";
+    const fontSize = 14;
     const columns = canvas.width / fontSize;
-    const drops = [];
-
-    for (let x = 0; x < columns; x++) drops[x] = 1;
+    const drops = Array.from({ length: columns }).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
         const text = symbols[Math.floor(Math.random() * symbols.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.995)
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
-
-        drops[i] += 0.5; // إبطاء السرعة
+        }
+        drops[i]++;
       }
     }
 
-    setInterval(draw, 50); // تباطؤ التكرار
+    setInterval(draw, 33);
   </script>
 </body>
 </html>
