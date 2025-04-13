@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>∆Ω-MGKO.404</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: monospace;
+    }
+
+    /* MATRIX EFFECT */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* TITLE */
+    .title-container {
+      position: relative;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      color: darkred;
+      text-shadow: 0 0 8px red, 0 0 15px crimson;
+      letter-spacing: 2px;
+    }
+
+    /* MYSTIC SYMBOLS */
+    .symbols {
+      font-size: 1.2rem;
+      color: #0f0;
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.5;
+      opacity: 0.4;
+    }
+
+    /* TRIANGULAR BUTTON */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .triangle-button {
+      width: 0;
+      height: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-bottom: 100px solid #0f0;
+      filter: drop-shadow(0 0 10px #0f0);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .triangle-button::after {
+      content: 'ܬܥܠ'; /* "تعال" بالسريانية */
+      position: absolute;
+      top: 60px;
+      left: -30px;
+      color: black;
+      font-size: 1.5rem;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="title-container">
+    <div class="title">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
+  </div>
+
+  <div class="symbols">
+    ⟁ ⧫ ☥ ⚛ ⍟ ⊹ 𓂀 𓆣 𓊝 ⊕ ⟁ ⚙ ⟁ ⧫ ☥ ⚛ ⍟ ⊹ 𓂀 𓆣 𓊝 ⊕
+  </div>
+
+  <div class="button-container">
+    <div class="triangle-button"></div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const symbols = '⟁⧫☥⚛⍟⊹𓂀𓆣𓊝⊕';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let x = 0; x < columns; x++)
+      drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = symbols[Math.floor(Math.random() * symbols.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+          drops[i] = 0;
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
