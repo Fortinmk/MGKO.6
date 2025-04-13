@@ -1,186 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>∆Ω-MGKO.404</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      background: black;
-      overflow: hidden;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #000000 0%, #0a0014 100%);
+      color: #ff0044;
       font-family: monospace;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .pyramid-container {
-      perspective: 1000px;
-      margin-top: 100px;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* شعار MGKO داخل شكل هندسي */
+    .logo {
+      font-size: 2.5rem;
+      color: #aa00ff;
+      padding: 14px 28px;
+      border: 3px double #aa00ff;
+      border-radius: 18px;
+      box-shadow: 0 0 20px #aa00ff, inset 0 0 10px #aa00ff;
+      background: rgba(0, 0, 0, 0.3);
+      margin-bottom: 40px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    /* الهرم الثلاثي */
     .pyramid {
-      width: 150px;
-      height: 150px;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(20deg) rotateY(30deg);
-      animation: rotate 30s linear infinite;
-    }
-
-    .pyramid-face {
-      position: absolute;
       width: 0;
       height: 0;
-      border-left: 75px solid transparent;
-      border-right: 75px solid transparent;
-      border-bottom: 130px solid rgba(138, 43, 226, 0.3); /* بنفسجي شفاف */
-      filter: drop-shadow(0 0 10px red);
+      border-left: 80px solid transparent;
+      border-right: 80px solid transparent;
+      border-bottom: 140px solid #aa00ff;
+      position: relative;
+      animation: spin 8s linear infinite;
+      box-shadow: 0 0 40px #8000ff;
     }
 
-    .pyramid-face:nth-child(2) {
-      transform: rotateY(90deg) translateZ(75px);
-    }
-
-    .pyramid-face:nth-child(3) {
-      transform: rotateY(180deg) translateZ(75px);
-    }
-
-    .pyramid-face:nth-child(4) {
-      transform: rotateY(-90deg) translateZ(75px);
-    }
-
-    .title-inside {
+    .pyramid::before {
+      content: 'M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂';
       position: absolute;
-      top: 40%;
+      top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 1.2rem;
-      text-shadow: 0 0 6px red;
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotateX(20deg) rotateY(0deg);
-      }
-      to {
-        transform: rotateX(20deg) rotateY(360deg);
-      }
-    }
-
-    .symbols {
+      transform: translate(-50%, -30%);
+      color: #fff;
       font-size: 1.1rem;
-      color: #0f0;
-      text-align: center;
-      margin-top: 20px;
-      line-height: 1.5;
-      opacity: 0.6;
-      animation: float3d 10s ease-in-out infinite alternate;
-      transform-style: preserve-3d;
+      text-shadow: 0 0 5px #fff, 0 0 8px #aa00ff;
+      pointer-events: none;
     }
 
-    @keyframes float3d {
+    @keyframes spin {
       0% {
-        transform: translateZ(0px) translateY(0px);
+        transform: rotateY(0deg);
       }
       100% {
-        transform: translateZ(30px) translateY(-10px) rotateX(5deg);
+        transform: rotateY(360deg);
       }
     }
 
+    /* زر النقش السرياني */
     .button-container {
-      position: absolute;
+      position: fixed;
       bottom: 40px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .square-button {
-      width: 130px;
-      height: 130px;
-      background: rgba(138, 43, 226, 0.2); /* بنفسجي شفاف */
-      border: 2px solid #a020f0;
-      box-shadow: 0 0 15px #a020f0;
+    .syriac-button {
+      width: 160px;
+      height: 160px;
+      background: rgba(100, 0, 150, 0.2);
+      border: 2px solid #aa00ff;
+      border-radius: 18px;
+      box-shadow: 0 0 20px #aa00ff, inset 0 0 10px #550088;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff0f5;
-      font-size: 1.3rem;
-      font-family: 'Courier New', Courier, monospace;
-      letter-spacing: 1px;
-      cursor: pointer;
+      font-size: 2rem;
+      color: #ffccff;
+      font-family: 'Estrangelo Edessa', 'Segoe UI', sans-serif;
       text-align: center;
-      text-shadow: 0 0 6px #ff00ff;
-      backdrop-filter: blur(2px);
-      border-radius: 12px;
+      padding: 10px;
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s;
+      cursor: pointer;
     }
 
+    .syriac-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #ff00ff;
+    }
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
+  <div class="logo">∆Ω-MGKO.404</div>
 
-  <div class="pyramid-container">
-    <div class="pyramid">
-      <div class="pyramid-face"></div>
-      <div class="pyramid-face"></div>
-      <div class="pyramid-face"></div>
-      <div class="pyramid-face"></div>
-      <div class="title-inside">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
-    </div>
-  </div>
-
-  <div class="symbols">
-    ⟁ 𓂀 𒀭 ☥ ⚛ ⊹ ⧫ 𓊝 ⊕ ⍟ ⧫ 𒀀 ⨀ 𓆣 ⍢ ⦿ 𒁃 𓉐 ⨳ ☊ ⧚
-  </div>
+  <div class="pyramid"></div>
 
   <div class="button-container">
-    <div class="square-button">ܬܪܨ<br>ܠܫܘܒܚܐ</div>
+    <div class="syriac-button">
+      ܬܥܠ
+    </div>
   </div>
-
-  <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const symbols = '⟁𓂀𒀭☥⚛⊹⧫𓊝⊕⍟𒀀⨀𓆣⍢⦿𒁃𓉐⨳☊⧚';
-    const fontSize = 18;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array(columns).fill(1);
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = symbols[Math.floor(Math.random() * symbols.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 33);
-  </script>
 </body>
 </html>
