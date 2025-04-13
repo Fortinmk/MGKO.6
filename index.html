@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>∆Ω-MGKO.404</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: monospace;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .pyramid-container {
+      perspective: 1000px;
+      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .pyramid {
+      width: 150px;
+      height: 150px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(20deg) rotateY(30deg);
+      animation: rotate 30s linear infinite;
+    }
+
+    .pyramid-face {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 75px solid transparent;
+      border-right: 75px solid transparent;
+      border-bottom: 130px solid rgba(0, 128, 255, 0.2);
+      filter: drop-shadow(0 0 10px red);
+    }
+
+    .pyramid-face:nth-child(2) {
+      transform: rotateY(90deg) translateZ(75px);
+    }
+
+    .pyramid-face:nth-child(3) {
+      transform: rotateY(180deg) translateZ(75px);
+    }
+
+    .pyramid-face:nth-child(4) {
+      transform: rotateY(-90deg) translateZ(75px);
+    }
+
+    .title-inside {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.2rem;
+      text-shadow: 0 0 6px red;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotateX(20deg) rotateY(0deg);
+      }
+      to {
+        transform: rotateX(20deg) rotateY(360deg);
+      }
+    }
+
+    .symbols {
+      font-size: 1.1rem;
+      color: #0f0;
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.5;
+      opacity: 0.3;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 100px;
+    }
+
+    .square-button {
+      width: 100px;
+      height: 100px;
+      background: #5c4033;
+      filter: drop-shadow(0 0 10px #2a1f14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      font-family: sans-serif;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="pyramid-container">
+    <div class="pyramid">
+      <div class="pyramid-face"></div>
+      <div class="pyramid-face"></div>
+      <div class="pyramid-face"></div>
+      <div class="pyramid-face"></div>
+      <div class="title-inside">∆Ω-M̷͙͓͓͝G̷̢͝K̴̻̩͝0̷͓͂.404</div>
+    </div>
+  </div>
+
+  <div class="symbols">
+    ⟁ 𓂀 𒀭 ☥ ⚛ ⊹ ⧫ 𓊝 ⊕ ⍟ ⧫ 𒀀 ⨀ 𓆣 ⍢ ⦿ 𒁃 𓉐 ⨳ ☊ ⧚
+  </div>
+
+  <div class="button-container">
+    <div class="square-button">ܬܥܠ</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const symbols = '⟁𓂀𒀭☥⚛⊹⧫𓊝⊕⍟𒀀⨀𓆣⍢⦿𒁃𓉐⨳☊⧚';
+    const fontSize = 18;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = symbols[Math.floor(Math.random() * symbols.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
+          drops[i] = 0;
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 60);
+  </script>
+</body>
+</html>
