@@ -43,7 +43,7 @@
       height: 0;
       border-left: 75px solid transparent;
       border-right: 75px solid transparent;
-      border-bottom: 130px solid rgba(0, 128, 255, 0.2);
+      border-bottom: 130px solid rgba(138, 43, 226, 0.3); /* بنفسجي شفاف */
       filter: drop-shadow(0 0 10px red);
     }
 
@@ -84,27 +84,46 @@
       text-align: center;
       margin-top: 20px;
       line-height: 1.5;
-      opacity: 0.3;
+      opacity: 0.6;
+      animation: float3d 10s ease-in-out infinite alternate;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes float3d {
+      0% {
+        transform: translateZ(0px) translateY(0px);
+      }
+      100% {
+        transform: translateZ(30px) translateY(-10px) rotateX(5deg);
+      }
     }
 
     .button-container {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
       display: flex;
       justify-content: center;
-      margin-top: 100px;
     }
 
     .square-button {
-      width: 100px;
-      height: 100px;
-      background: #5c4033;
-      filter: drop-shadow(0 0 10px #2a1f14);
+      width: 130px;
+      height: 130px;
+      background: rgba(138, 43, 226, 0.2); /* بنفسجي شفاف */
+      border: 2px solid #a020f0;
+      box-shadow: 0 0 15px #a020f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 1.2rem;
-      font-family: sans-serif;
+      color: #fff0f5;
+      font-size: 1.3rem;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 1px;
       cursor: pointer;
+      text-align: center;
+      text-shadow: 0 0 6px #ff00ff;
+      backdrop-filter: blur(2px);
+      border-radius: 12px;
     }
 
   </style>
@@ -118,7 +137,7 @@
       <div class="pyramid-face"></div>
       <div class="pyramid-face"></div>
       <div class="pyramid-face"></div>
-      <div class="title-inside">∆Ω-M̷͙͓͓͝G̷̢͝K̴̻̩͝0̷͓͂.404</div>
+      <div class="title-inside">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
     </div>
   </div>
 
@@ -127,7 +146,7 @@
   </div>
 
   <div class="button-container">
-    <div class="square-button">ܬܥܠ</div>
+    <div class="square-button">ܬܪܨ<br>ܠܫܘܒܚܐ</div>
   </div>
 
   <script>
@@ -153,14 +172,15 @@
         const text = symbols[Math.floor(Math.random() * symbols.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
+        }
 
         drops[i]++;
       }
     }
 
-    setInterval(draw, 60);
+    setInterval(draw, 33);
   </script>
 </body>
 </html>
