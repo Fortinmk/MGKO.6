@@ -12,6 +12,7 @@
       font-family: monospace;
     }
 
+    /* MATRIX EFFECT */
     canvas {
       position: fixed;
       top: 0;
@@ -19,79 +20,84 @@
       z-index: -1;
     }
 
-    .title-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    /* PYRAMID CONTAINER */
+    .pyramid-container {
+      width: 300px;
       height: 300px;
-      margin-top: 50px;
+      margin: 80px auto 20px;
+      position: relative;
+      perspective: 1000px;
     }
 
     .pyramid {
       width: 0;
       height: 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) rotateX(40deg) rotateY(25deg);
       border-left: 150px solid transparent;
       border-right: 150px solid transparent;
       border-bottom: 260px solid rgba(0, 150, 255, 0.2);
-      position: relative;
-      filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.5));
     }
 
     .title {
       position: absolute;
-      top: 100px;
+      top: 120px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       color: darkred;
       text-shadow: 0 0 8px red, 0 0 15px crimson;
       letter-spacing: 2px;
+      z-index: 2;
     }
 
+    /* MYSTIC SYMBOLS */
     .symbols {
       font-size: 1.2rem;
       color: #0f0;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 10px;
       line-height: 1.5;
       opacity: 0.4;
     }
 
+    /* SQUARE BUTTON */
     .button-container {
       display: flex;
       justify-content: center;
-      margin-top: 40px;
+      margin-top: 50px;
     }
 
     .square-button {
       width: 120px;
       height: 120px;
-      background: linear-gradient(135deg, #00ff99, #a020f0);
+      background: linear-gradient(135deg, #00ff99, #8000ff);
+      border: 4px double #0f0;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 4px double #0f0;
-      box-shadow: 0 0 20px #0f08, 0 0 10px #a020f088;
-      position: relative;
+      font-size: 1.5rem;
+      color: black;
+      font-family: sans-serif;
+      font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 0 15px #0f0, 0 0 25px #8000ff;
+      transform: rotate(45deg);
     }
 
     .square-button span {
-      color: black;
-      font-size: 1.5rem;
-      font-weight: bold;
-      font-family: sans-serif;
+      transform: rotate(-45deg);
     }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
 
-  <div class="title-container">
-    <div class="pyramid">
-      <div class="title">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
-    </div>
+  <div class="pyramid-container">
+    <div class="pyramid"></div>
+    <div class="title">∆Ω-M̷͙͓̓G̷̢͝K̴̻̩͝0̷͓͂.404</div>
   </div>
 
   <div class="symbols">
@@ -99,7 +105,9 @@
   </div>
 
   <div class="button-container">
-    <div class="square-button"><span>ܬܥܠ</span></div>
+    <div class="square-button">
+      <span>ܬܥܠ</span>
+    </div>
   </div>
 
   <script>
@@ -114,8 +122,7 @@
     const columns = canvas.width / fontSize;
     const drops = [];
 
-    for (let x = 0; x < columns; x++)
-      drops[x] = 1;
+    for (let x = 0; x < columns; x++) drops[x] = 1;
 
     function draw() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -128,14 +135,14 @@
         const text = symbols[Math.floor(Math.random() * symbols.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.99)
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.995)
           drops[i] = 0;
 
-        drops[i] += 0.5; // إبطاء النزول
+        drops[i] += 0.5; // إبطاء السرعة
       }
     }
 
-    setInterval(draw, 50); // تقليل التكرار لتقليل السرعة
+    setInterval(draw, 50); // تباطؤ التكرار
   </script>
 </body>
 </html>
